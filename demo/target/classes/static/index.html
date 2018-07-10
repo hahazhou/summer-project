@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <title>Spring Boot User</title>
+</head>
+<body>
+<!-- Thymeleaf 常用属性进行取值 -->
+<h1>取控制层传过来的值</h1>
+<h1>Manager = </h1>
+<td class="text" th:text="${manager}" ></td>
+<h1>测试JS是否有效</h1>
+<p id="testId"></p>
+<h1>把所有用户信息列出来</h1>
+<ul class="timeline">
+    <div th:each="entry, status : ${users}">
+        <li th:attr="class=${status.odd} ? 'timeline-inverted' : ''">
+            <div class="tl-circ"></div>
+            <div class="timeline-panel">
+                <div class="tl-heading">
+                    <h4><span th:text="${entry.name}">TITLE</span></h4>
+                </div>
+            </div>
+        </li>
+    </div>
+</ul>
+<script src="./js/jquery-3.1.1.js"></script>
+<script>
+    $(document).ready(function () {
+        $( "#testId" ).text( "Test Id" );
+    });
+</script>
+</body>
+</html>
