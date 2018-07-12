@@ -4,19 +4,20 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name="video")
 public class Video implements java.io.Serializable{
     private static final long serialVersionUID = 2120869894112984147L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="video_id")
     private int video_id;
 
-    @Column
+    @Column(name="camera_id")
     private int camera_id;
-    @Column
+    @Column(name="video_name")
     private String video_name;
-    @Column
+    @Column(name="video_path")
     private String video_path;
-    @Column
+    @Column(name="time")
     private Date time;
 
     Video(){}

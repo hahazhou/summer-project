@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <title>Controller-block</title>
+</head>
+<body>
+在线用户：<p th:text="${user}"></p>
+<a href="/login">登出</a>
+<!-- Thymeleaf 常用属性进行取值 -->
+<h1>建筑平面图</h1>
+<select id="mapname" >
+    <option th:each="map ,status:${maplist}"><span th:text="${map.getMap_name()}">---</span></option>
+</select>
+<br/>
+<img  id="map" src="C:/Users/asus/Pictures/Saved Pictures/map.jpg"/>
+<script src="js/jquery-3.1.1.js"></script>
+</body>
+<script>
+
+</script>
+</html>

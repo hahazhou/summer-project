@@ -7,7 +7,7 @@ public interface UserDao {
     int insertUser(User user);
     User getUserByName(String name);
     List<User> getAllUsers();
-    int delete(int id);
-    int update(int id, User user);
+    int delete(User user);
+    int update(User user);
 
 }

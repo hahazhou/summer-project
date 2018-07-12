@@ -17,16 +17,16 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public int insertUser(User user){
-        return jdbcTemplate.update("insert into user(username, password, role) values(?, ?, ?)",
-                user.getUsername(),user.getPassword(), user.getRole());
+        return jdbcTemplate.update("insert into user(username, password) values(?, ?)",
+                user.getUsername(),user.getPassword());
     };
 
     @Override
-    public User getUserByName(String name){
+    public User getUserByName(String username){
         try {
-            List<User> list = jdbcTemplate.query("select * from user where username = ?", new Object[]{name}, new BeanPropertyRowMapper(User.class));
+            List<User> list = jdbcTemplate.query("select * from user where username=?", new Object[]{username}, new BeanPropertyRowMapper(User.class));
             return list.get(0);
-        } catch (EmptyResultDataAccessException e){
+        } catch (IndexOutOfBoundsException e){
             return null;
         }
     };
@@ -42,14 +42,14 @@ public class UserDaoImpl implements UserDao{
     };
 
     @Override
-    public int delete(int id){
-        return jdbcTemplate.update("DELETE from user where user_id = ? ",id);
+    public int delete(User user){
+        return jdbcTemplate.update("DELETE from user where username = ? ",user.getUsername());
     };
 
     @Override
-    public int update(int id, User user){
-        return jdbcTemplate.update("UPDATE user SET username = ? , password = ? WHERE user_id=?",
-                user.getUsername(),user.getPassword(), id);
+    public int update(User user){
+        return jdbcTemplate.update("UPDATE user SET  password = ? WHERE username=?",
+                user.getPassword(),user.getUsername());
     };
 
 

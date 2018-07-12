@@ -2,22 +2,27 @@ package com.example.demo.enitiy;
 import javax.persistence.*;
 
 @Entity
+@Table(name="camera")
 public class Camera implements java.io.Serializable{
     private static final long serialVersionUID = 2120869894112984147L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="camera_id")
     private int camera_id;
 
-    @Column
+    @Column(name="map_id")
     private int map_id;
-    @Column
-    private String camera_name;
-    @Column
+    @Column(name="x")
     private int x;
-    @Column
+    @Column(name="y")
     private int y;
-    @Column
-    private int r;
+    @Column(name="redius")
+    private int redius;
+
+    @Column(name="direction")
+    private float direction;
+
+    @Column(name="angle")
+    private float angle;
 
     Camera(){}
 
@@ -38,14 +43,6 @@ public class Camera implements java.io.Serializable{
         return map_id;
     }
 
-    public void setCamera_name(String camera_name) {
-        this.camera_name = camera_name;
-    }
-
-    public String getCamera_name() {
-        return camera_name;
-    }
-
     public void setX(int x) {
         this.x = x;
     }
@@ -54,13 +51,9 @@ public class Camera implements java.io.Serializable{
         return x;
     }
 
-    public void setR(int r) {
-        this.r = r;
-    }
+    public void setRedius(int redius) { this.redius = redius; }
 
-    public int getR() {
-        return r;
-    }
+    public int getRedius() { return redius; }
 
     public void setY(int y) {
         this.y = y;
@@ -68,5 +61,21 @@ public class Camera implements java.io.Serializable{
 
     public int getY() {
         return y;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setDirection(float direction) {
+        this.direction = direction;
+    }
+
+    public float getDirection() {
+        return direction;
     }
 }

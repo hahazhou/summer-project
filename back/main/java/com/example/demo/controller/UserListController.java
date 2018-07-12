@@ -24,7 +24,7 @@ public class UserListController {
         try {
             List<User> users = userService.getAllUsers();
             model.addAttribute("users", users);
-            return "index";
+            return "userlist";
         }catch (EmptyResultDataAccessException e){
 
             model.addAttribute("errmsg","list is empty");
