@@ -42,6 +42,7 @@ public class ObjectDetection {
         public void actionPerformed(ActionEvent e) {
             int offset = delta * count;
             if (width - offset >= offset && height - offset >= offset) {
+
                 g.drawRect(offset, offset, width - 2 * offset, height - 2 * offset);
                 canvasFrame.repaint();
                 count++;
@@ -52,10 +53,18 @@ public class ObjectDetection {
         }
     }
 
-    public static void printScreen(int devicenumber) throws Exception {
+    static String ssd_detect = "G:\\caffe-vs2013\\caffe-ssd-microsoft\\Build\\x64\\Release\\ssd_detect.exe";
+    static String deploy_prototxt = "G:\\caffe-vs2013\\caffe-ssd-microsoft\\models\\VGGNet\\VOC0712\\SSD_300x300\\deploy.prototxt";
+    static String caffemodel = "G:\\caffe-vs2013\\caffe-ssd-microsoft\\models\\VGGNet\\VOC0712\\SSD_300x300\\VGG_VOC0712_SSD_300x300_iter_120000.caffemodel";
+
+    static String outputfile = "G:\\caffe-vs2013\\caffe-ssd-microsoft\\models\\VGGNet\\VOC0712\\SSD_300x300\\test.txt";
+
+    static String outputfolder = "G:\\javacv-test\\image";
+
+    public static void printScreen(int devicenumber, String outputfile, final String outputfolder) throws Exception {
         System.load("C:\\OpenCV\\opencv\\build\\java\\x64\\opencv_java320.dll");
         //write test.txt
-        final FileWriter fileWriter = new FileWriter("G:\\caffe-vs2013\\caffe-ssd-microsoft\\models\\VGGNet\\VOC0712\\SSD_300x300\\test.txt");
+        final FileWriter fileWriter = new FileWriter(outputfile);
 
         //open camera
         OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(devicenumber);
@@ -69,6 +78,8 @@ public class ObjectDetection {
         opencv_core.IplImage grabbedImage = converter.convert(grabber.grab());
 
         final org.bytedeco.javacv.Frame frame = grabber.grab();
+
+
         TimerAction timerAction = new TimerAction(canvasFrame);
         final Timer timer = new Timer(10, timerAction);
         timerAction.setTimer(timer);
@@ -76,8 +87,9 @@ public class ObjectDetection {
         JPanel contentPane = new JPanel();
         Container contentPane2 = canvasFrame.getContentPane();
         JButton exit = new JButton("Exit");
+        JButton save = new JButton("Save");
 
-
+        //exit button
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -86,15 +98,15 @@ public class ObjectDetection {
         });
 
         //Mouse Click
-        canvasFrame.getCanvas().addMouseListener(new MouseAdapter() {
+        save.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 timer.start();
                 try {
                     opencv_core.Mat mat = converter.convertToMat(frame);
 
-                    opencv_imgcodecs.imwrite("G:\\javacv-test\\image\\" + ex + ".png", mat);
-                    fileWriter.write("G:\\javacv-test\\image\\" + ex + ".png\r\n");
+                    opencv_imgcodecs.imwrite(outputfolder + "\\" + ex + ".png", mat);
+                    fileWriter.write(outputfolder + "\\" + ex + ".png\r\n");
                     ex++;
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -103,7 +115,9 @@ public class ObjectDetection {
             }
         });
 
+        contentPane.add(save, BorderLayout.SOUTH);
         contentPane.add(exit, BorderLayout.SOUTH);
+
         contentPane2.add(contentPane, BorderLayout.SOUTH);
 
         while (canvasFrame.isVisible()) {
@@ -139,16 +153,24 @@ public class ObjectDetection {
         }
     }
 
+    public static String createSSDCmd(String txtfile, String targetfolder) {
+        //targetfolder must have folders named image ,image-tested and output.txt
+        String cmd = ssd_detect + " " + deploy_prototxt + " " + caffemodel + " " + txtfile + " " + targetfolder + "\\";
+        return cmd;
+    }
+
     public static void main(String[] args) throws Exception {
         String cmd = "G:\\caffe-vs2013\\caffe-ssd-microsoft\\Build\\x64\\Release\\ssd_detect.exe " +
                 "G:\\caffe-vs2013\\caffe-ssd-microsoft\\models\\VGGNet\\VOC0712\\SSD_300x300\\deploy.prototxt " +
                 "G:\\caffe-vs2013\\caffe-ssd-microsoft\\models\\VGGNet\\VOC0712\\SSD_300x300\\VGG_VOC0712_SSD_300x300_iter_120000.caffemodel " +
                 "G:\\caffe-vs2013\\caffe-ssd-microsoft\\models\\VGGNet\\VOC0712\\SSD_300x300\\test.txt " +
                 "G:\\\\javacv-test\\\\";
-        printScreen(0);
-        
-        executeCmd(cmd);
+        String command = createSSDCmd(outputfile, "G:\\javacv-test");
 
-        
+        printScreen(0, outputfile, outputfolder);
+
+        executeCmd(command);
+
+
     }
 }
