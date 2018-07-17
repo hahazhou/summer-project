@@ -1,12 +1,12 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/7/4 15:50:34                            */
+/* Created on:     2018/7/11 10:12:15                           */
 /*==============================================================*/
 
 
 drop table if exists camera;
 
-drop table if exists map;
+drop table if exists mapphoto;
 
 drop table if exists user;
 
@@ -19,24 +19,25 @@ create table camera
 (
    camera_id            int not null,
    map_id               int,
-   camera_name          varchar(1024),
    x                    int,
    y                    int,
-   r                    int,
+   direction            float,
+   angle                float,
+   redius               int,
    primary key (camera_id)
 );
 
 /*==============================================================*/
-/* Table: map                                                   */
+/* Table: mapphoto                                              */
 /*==============================================================*/
-create table map
+create table mapphoto
 (
-   map_id               int not null,
-   user_id              int,
-   map_path             varchar(1024),
    map_name             varchar(1024),
-   h                    int,
-   w                    int,
+   map_path             varchar(1024),
+   width                int,
+   height               int,
+   map_id               int not null,
+   username             varchar(1024),
    primary key (map_id)
 );
 
@@ -45,11 +46,9 @@ create table map
 /*==============================================================*/
 create table user
 (
-   user_id              int not null,
-   username             varchar(1024),
+   username             varchar(1024) not null,
    password             varchar(1024),
-   role                 bool,
-   primary key (user_id)
+   primary key (username)
 );
 
 /*==============================================================*/
@@ -57,20 +56,20 @@ create table user
 /*==============================================================*/
 create table video
 (
-   video_id             int not null,
-   camera_id            int,
    video_name           varchar(1024),
    video_path           varchar(1024),
    time                 date,
+   video_id             int not null,
+   camera_id            int,
    primary key (video_id)
 );
 
-alter table camera add constraint FK_mc foreign key (map_id)
-      references map (map_id) on delete restrict on update restrict;
+alter table camera add constraint FK_Relationship_2 foreign key (map_id)
+      references mapphoto (map_id) on delete restrict on update restrict;
 
-alter table map add constraint FK_Relationship_3 foreign key (user_id)
-      references user (user_id) on delete restrict on update restrict;
+alter table mapphoto add constraint FK_Relationship_1 foreign key (username)
+      references user (username) on delete restrict on update restrict;
 
-alter table video add constraint FK_cv foreign key (camera_id)
+alter table video add constraint FK_Relationship_3 foreign key (camera_id)
       references camera (camera_id) on delete restrict on update restrict;
 
