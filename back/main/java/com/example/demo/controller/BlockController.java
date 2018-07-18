@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -19,19 +22,31 @@ public class BlockController {
     @Autowired
     private VideoService videoService;
 
+    /*
+    摄像头切换辅助函数
+     */
+    private int selectCamera(String camera){
+        if (camera.equals("camera_0") ) {
+            return 0;
+        }
+        if (camera .equals("camera_1") ) {
+            return 1;
+        }
+        if (camera.equals("camera_2") ) {
+            return 2;
+        }
+        return 5438;
+    }
+
+    /*
+    摄像头切换函数
+     */
     @RequestMapping("/changeCamera")
     @ResponseBody
     public Object showmap(HttpServletRequest request, HttpServletResponse httpServletResponse){
         try {
             String camera = request.getParameter("camera");
-            int camera_id = 0;
-            if (camera.equals("camera_1") ) {
-                camera_id = 1;
-            } else if (camera .equals("camera_2") ) {
-                camera_id = 2;
-            } else if (camera.equals("camera_3") ) {
-                camera_id = 3;
-            }
+            int camera_id =selectCamera(camera);
             Video video = videoService.getVideoByCamera(camera_id);
             JSONObject data = new JSONObject();
             data.put("msg","切换成功");
@@ -43,4 +58,50 @@ public class BlockController {
         }
     }
 
+
+    /*
+    调用历史视频函数
+     */
+    @RequestMapping("/sortVideoByTime")
+    @ResponseBody
+    public Object sortVideoByTime(HttpServletRequest request,HttpServletResponse response){
+        try{
+            JSONObject data =new JSONObject();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH");
+            String time=request.getParameter("time");
+            Date date=dateFormat.parse(time);
+            int hour=Integer.parseInt(request.getParameter("hour"));
+            String camera=request.getParameter("camera");
+            int camera_id =selectCamera(camera);
+            Video video=videoService.getVideoByTime(date,camera_id,hour);
+
+            data.put("msg","搜索成功");
+            return data.toString();
+
+        }catch (NullPointerException e){
+            return new JSONObject().put("msg","不存在该时段视频").toString();
+        }catch (ParseException e){
+            return new JSONObject().put("msg","日期转换失败").toString();
+        }
+    }
+
+    /*
+    * 调用实时视频后端函数
+    * */
+    @RequestMapping("/showVideo")
+    @ResponseBody
+    public Object showVideo(HttpServletRequest request,HttpServletResponse response){
+       try {
+           String camera=request.getParameter("camera");
+           int camera_id=selectCamera(camera);
+           Video video = videoService.getVideoByCamera(camera_id);
+           JSONObject data = new JSONObject();
+           /*
+           请在这里添加你的代码，王儿子
+            */
+           return data.toString();
+       } catch (NullPointerException e){
+            return new JSONObject().put("msg","摄像头参数错误").toString();
+       }
+    }
 }

@@ -1,30 +1,80 @@
 import React, { Component } from 'react';
 import './App.css'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
+import axios from 'axios'
+import qs from 'qs'
+
 
 class Login extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            username:"",
+            password:"",
+            redirect:false
+        };
+
+        this.setUserName = this.setUserName.bind(this);
+        this.setPassword = this.setPassword.bind(this);
+        this.tologin = this.tologin.bind(this);
+    }
+
+    tologin=()=>{
+        axios.post("/login/tologin",qs.stringify({
+            username:this.state.username,
+            password:this.state.password
+        }))
+            .then((response)=> {
+                console.log(response);
+                alert(response.data.msg);
+                if(response.data.msg==="登录成功"){
+                    this.setState({
+                        redirect:true
+                    })
+                }
+                }
+            )
+            .catch((error) =>{
+                console.log(error);
+                alert(error);
+            })
+    };
+
+    setUserName(e){
+        this.setState({
+            username:e.target.value
+        });
+
+    };
+
+
+    setPassword(e){
+        this.setState({
+            password:e.target.value
+        })
+    }
+
     render(){
-        return(
-            <div>
+        if(!this.state.redirect){
+            return(
+             <div>
                 <header className="App-header">
                     <h1 className="App-title">登录界面</h1><br/>
                     <Link to={"/home"} className={"sLink"}>首页</Link><p>&nbsp;&nbsp;</p>
                 </header>
                 <p className={"center"}>
-                <form>
+
                     <label>用户名:</label>
-                    <input type={"text"}/><br/><br/>
+                    <input onChange={this.setUserName} id="username" type={"text"}/><br/><br/><p>{this.state.username}</p>
                     <label>密&nbsp;码:</label>
-                    <input type={"password"}/><br/><br/>
-                    <select>
-                        <option>普通用户</option>
-                        <option>管理员</option>
-                    </select><p>&nbsp;</p>
-                    <input type={"submit"}/>
-                </form>
+                    <input id={"password"} type={"password"} onChange={this.setPassword}/><br/><br/>
+                    <button onClick={this.tologin}>登录</button>
+
                 </p>
-            </div>
-        )
+             </div>
+        )}else {
+            return <Redirect push to={"/home"}/>
+        }
     }
 }
 

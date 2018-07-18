@@ -19,6 +19,8 @@ public class Video implements java.io.Serializable{
     private String video_path;
     @Column(name="time")
     private Date time;
+    @Column(name="hour")
+    private int hour;
 
     Video(){}
 
@@ -61,4 +63,8 @@ public class Video implements java.io.Serializable{
     public Date getTime() {
         return time;
     }
+
+    public int getHour() { return hour; }
+
+    public void setHour(int hour) { this.hour = hour; }
 }

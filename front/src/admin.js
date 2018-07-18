@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 import znz from './pictrue/znz.jpg'
+import {Link} from 'react-router-dom'
+import userpic from './pictrue/userpic.jpg';
 
 class Admin extends Component {
     constructor(props){
         super(props);
         this.state={
             img:null,
+            user:"喵喵喵",
             text:"",
             info:"",
             cwidth:600,
@@ -53,8 +55,11 @@ class Admin extends Component {
             <div className="Admin">
                 <header className="App-header">
                     <h1 className="App-title">管理员界面</h1>
+                    <img src={userpic} className="App-logo"  alt={"userpic"}/><br/>
+                    <label><strong>{this.state.user}&nbsp;&nbsp;</strong></label>
+                    <Link className={"sLink"} to={"/home"}>返回首页</Link>&nbsp;&nbsp;<Link className={"sLink"} to={"/login"}>退出登录</Link>
                 </header>
-                <p className={"center"}>
+                < p className={"center"}>
                     <canvas  ref={ref=>this.canvas=ref} width={this.state.cwidth+"px"} height={this.state.cheight+"px"} className={"mycanvas"}
                                                   onMouseMove={this.cnvs_getCoordinates} >
                     <p>画面无法显示</p>
@@ -68,17 +73,21 @@ class Admin extends Component {
                     <p>{this.state.info}</p>
 
                     <br/>
-                    <img src={this.state.img}/>
+                    <img src={this.state.img} alt={"图片无法显示"}/>
                     <br/>
                     <h1>摄像头参数设置</h1>
                     <from>
-                        <img className={"znz"} src={znz}/><br/>
-                        <label>摄像头位置&nbsp;&nbsp;:</label><br/>
-                        <label>x:</label><input/><label>y:</label><input/><br/>
-                        <label>摄像头方向&nbsp;&nbsp;：</label><input/><br/>
-                        <label>摄像头仰角&nbsp;&nbsp;：</label><input/><br/>
+                        <img className={"znz"} src={znz} alt={"指南针方向"}/><br/>
+                        <label>摄像头位置:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <label>x:</label><input/><br/>
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;y:</label><input/><br/>
+                        <label>摄像头方向&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：</label><input/><br/>
+                        <label>摄像头仰角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：</label><input/><br/>
                         <label>摄像头监控半径：</label><input/><br/>
-                        <label>比例尺&nbsp;&nbsp;&nbsp;：</label><input/><label>:1</label></from>
+                        <label>比例尺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：</label><input/><label>:1</label><br/>
+                        <input type={"submit"}/>
+                    </from>
                 </p>
 
 
