@@ -14,7 +14,7 @@ class Home extends Component {
         super(props);
         this.state= {
             user: "粥西奥",
-            camera: "camera_1",
+            camera: "camera_0",
             time: moment(new Date(), "YYYY-MM-DD"),
             hourlist: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
             hour:0,
@@ -51,22 +51,22 @@ class Home extends Component {
             })
     };
 
-    setDate(e){
+    setDate=(value)=>{
         this.setState({
-            time:e.target.value
+            time:value
         })
-    }
+    };
 
     setHour(e){
         this.setState({
             hour:e.target.value
         })
-    }
+    };
 
     sort=()=>{
         axios.post("/controllerblock/sortVideoByTime",qs.stringify({
             camera:this.state.camera,
-            time:this.state.time,
+            time:this.state.time.format("YYYY-MM-DD").toString(),
             hour:this.state.hour
         }))
             .then((response)=>{
@@ -118,7 +118,7 @@ class Home extends Component {
 
                 </div>
                 <div hidden={this.state.hidden}>
-                    <DatePicker defaultValue={this.state.time} className={"datapicker"} onChangeMonthYear={this.setDate}/>
+                    <DatePicker defaultValue={this.state.time} className={"datapicker"} onChange={this.setDate}/>
                     <label className={"hour"}>小时：</label>
                     <select className={"hour"} onChange={this.setHour} >
                     {
@@ -139,6 +139,7 @@ class Home extends Component {
                     <area id="camera_1"  shape="rect" coords="630,205,700,275" onClick={this.camera} alt={"camera2"}/>
                     <area id="camera_2"  shape="rect" coords="270,300,340,370" onClick={this.camera} alt={"camera3"}/>
                 </map>
+
             </div>
         );
     }

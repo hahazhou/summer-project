@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,21 +69,35 @@ public class BlockController {
     public Object sortVideoByTime(HttpServletRequest request,HttpServletResponse response){
         try{
             JSONObject data =new JSONObject();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String time=request.getParameter("time");
-            Date date=dateFormat.parse(time);
+            Date date=dateFormat.parse("2018-07-17");
             int hour=Integer.parseInt(request.getParameter("hour"));
             String camera=request.getParameter("camera");
             int camera_id =selectCamera(camera);
             Video video=videoService.getVideoByTime(date,camera_id,hour);
+           // String srcpath="C:\\Users\\asus\\scanner\\src\\pictrue";//前端src文件夹的绝对路径
+            //ArrayList<String> filelist=new ArrayList<String>();
+           // File src=new File(srcpath);
+           // File[] files=src.listFiles();
+           // for(File file:files){
+           //     String filepath = file.getPath();
+           //     filelist.add(filepath);
+           // }
+          //  data.put("filelist",filelist);
 
-            data.put("msg","搜索成功");
+            /*
+            *视频播放+截屏操作
+            * */
+
+
+            data.put("msg","SUCCESS");
             return data.toString();
 
         }catch (NullPointerException e){
-            return new JSONObject().put("msg","不存在该时段视频").toString();
+            return new JSONObject().put("msg","NullPointerException").toString();
         }catch (ParseException e){
-            return new JSONObject().put("msg","日期转换失败").toString();
+            return new JSONObject().put("msg","ParseException").toString();
         }
     }
 

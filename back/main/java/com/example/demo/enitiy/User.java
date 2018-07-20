@@ -7,6 +7,9 @@ import javax.persistence.*;
 public class User implements java.io.Serializable{
     private static final long serialVersionUID = 2120869894112984147L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="user_id")
+    private int user_id;
     @Column(name="username")
     private String username;
     @Column(name="password")
@@ -31,4 +34,7 @@ public class User implements java.io.Serializable{
         return password;
     }
 
+    public void setUser_id(int user_id) { this.user_id = user_id; }
+
+    public int getUser_id() { return user_id; }
 }
