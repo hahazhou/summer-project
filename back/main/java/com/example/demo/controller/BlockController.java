@@ -76,19 +76,20 @@ public class BlockController {
             String camera=request.getParameter("camera");
             int camera_id =selectCamera(camera);
             Video video=videoService.getVideoByTime(date,camera_id,hour);
-           // String srcpath="C:\\Users\\asus\\scanner\\src\\pictrue";//前端src文件夹的绝对路径
-            //ArrayList<String> filelist=new ArrayList<String>();
-           // File src=new File(srcpath);
-           // File[] files=src.listFiles();
-           // for(File file:files){
-           //     String filepath = file.getPath();
-           //     filelist.add(filepath);
-           // }
-          //  data.put("filelist",filelist);
+            String srcpath="C:\\Users\\asus\\scanner\\src\\pictrue";//前端src文件夹的绝对路径
+            ArrayList<String> filelist=new ArrayList<String>();
 
             /*
             *视频播放+截屏操作
             * */
+
+            File src=new File(srcpath);
+            File[] files=src.listFiles();
+            for(File file:files){
+                String filepath = file.getPath();
+                filelist.add(filepath);
+            }
+            data.put("filelist",filelist);
 
 
             data.put("msg","SUCCESS");

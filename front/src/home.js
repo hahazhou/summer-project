@@ -18,7 +18,9 @@ class Home extends Component {
             time: moment(new Date(), "YYYY-MM-DD"),
             hourlist: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
             hour:0,
-            hidden:true
+            hidden:true,
+            filelist:["C:\\Users\\asus\\scanner\\src\\pictrue\\smap.png"],
+            selhidden:true
         };
 
         this.camera=this.camera.bind(this);
@@ -27,6 +29,7 @@ class Home extends Component {
         this.sort=this.sort.bind(this);
         this.showTime=this.showTime.bind(this);
         this.showVideo=this.showVideo.bind(this);
+        this.selectphoto=this.selectphoto.bind(this);
     }
 
     camera=(e)=>{
@@ -70,8 +73,15 @@ class Home extends Component {
             hour:this.state.hour
         }))
             .then((response)=>{
-                alert(response.data.msg);
+                if(response.data.msg==="SUCCESS"){
+                    this.setState({
+                        filelist:response.data.filelist,
+                        selhidden:false
+                    })
+                }
+                console.log(response.data.filelist);
                 console.log(response);
+                alert(response.data.msg);
             })
             .catch((error)=>{
                 alert(error);
@@ -103,6 +113,10 @@ class Home extends Component {
 
     };
 
+    selectphoto(e){
+        alert(e.target.src);
+    }
+
     render() {
         return (
             <div className="Home">
@@ -129,6 +143,13 @@ class Home extends Component {
                     </select>
                     <button onClick={this.sort}>搜索</button>
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    <div hidden={this.state.selhidden}>
+                        {
+                            this.state.filelist.map(function (item) {
+                                return(<img src={item}/>);
+                            })
+                        }
+                    </div>
                 </div>
                 <h1>建筑平面图</h1>
                 <p className={"ssmap"}>
