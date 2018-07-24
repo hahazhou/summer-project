@@ -90,9 +90,13 @@ public class BlockController {
                 filelist.add(filepath);
             }
             data.put("filelist",filelist);
-
-
+            ArrayList<String> list=new ArrayList<String>();
+            list.add("person0");
+            list.add("person1");
+            list.add("person2");
+            data.put("personlist",list);
             data.put("msg","SUCCESS");
+            data.put("imgname","person.jpg");
             return data.toString();
 
         }catch (NullPointerException e){

@@ -19,9 +19,12 @@ class Home extends Component {
             hourlist: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
             hour:0,
             hidden:true,
-            personlist:["person1","person2"],
+            personlist:["person0"],
             personhidden:true,
-            person:"person1"
+            person:"person0",
+            imgname:"znz.jpg",
+            buff:"znz.jpg",
+            buthidden:true
         };
 
         this.camera=this.camera.bind(this);
@@ -32,8 +35,9 @@ class Home extends Component {
         this.showVideo=this.showVideo.bind(this);
         this.setPerson=this.setPerson.bind(this);
         this.selectPerson=this.selectPerson.bind(this);
+        this.showimg=this.showimg.bind(this);
     }
-
+    /****************************************************/
     camera=(e)=>{
         axios.post("/controllerblock/changeCamera",qs.stringify(
             {
@@ -55,25 +59,25 @@ class Home extends Component {
                 alert(error);
             })
     };
-
+    /**********************************************************/
     setDate=(value)=>{
         this.setState({
             time:value
         })
     };
-
+    /************************************************************/
     setHour(e){
         this.setState({
             hour:e.target.value
         })
     };
-
+    /********************************************************/
     setPerson(e){
         this.setState({
             person:e.target.value
         })
     }
-
+    /************************************************************/
     selectPerson=()=>{
         axios.post("/controllerblock/selectPerson",qs.stringify({
             person:this.state.person
@@ -84,8 +88,8 @@ class Home extends Component {
             .catch((error)=>{
                 console.log(error)
             })
-    }
-
+    };
+    /***************************************************/
     sort=()=>{
         axios.post("/controllerblock/sortVideoByTime",qs.stringify({
             camera:this.state.camera,
@@ -93,26 +97,30 @@ class Home extends Component {
             hour:this.state.hour
         }))
             .then((response)=>{
+                alert(response.data.msg);
                 if(response.data.msg==="SUCCESS"){
                     this.setState({
-                        personhidden:false
+                        personlist:response.data.personlist,
+                        buff:response.data.imgname,
+                        buthidden:false
                     })
                 }
                 console.log(response);
-                alert(response.data.msg);
+
             })
             .catch((error)=>{
                 alert(error);
                 console.log(error);
             })
     };
-
+    /*********************************************/
     showTime(){
      this.setState({
          hidden:false
      })
     }
 
+    /*******************************/
     showVideo=()=>{
         this.setState({
             hidden:true
@@ -130,7 +138,15 @@ class Home extends Component {
             })
 
     };
+    /**************************************/
+    showimg(){
+        this.setState({
+            personhidden:false,
+            imgname:this.state.buff
+        })
+    }
 
+    /*****************************************/
     render() {
         return (
             <div className="Home">
@@ -142,9 +158,11 @@ class Home extends Component {
                 </header>
                 <div className="videobox" >
                     <h1>选定摄像头:<strong>{this.state.camera}</strong></h1>
-                    <button id={"now"} onClick={this.showVideo} className="blue">实时视频</button><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <button id={"now"} onClick={this.showVideo} className="blue">实时视频</button>
+                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <button onClick={this.showTime} id={"his"} className="blue">历史视频</button>
-
+                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <button className="blue" onClick={this.showimg} hidden={this.state.buthidden}>展示截图</button>
                 </div>
                 <div hidden={this.state.hidden}>
                     <DatePicker defaultValue={this.state.time} className={"datapicker"} onChange={this.setDate}/>
@@ -160,7 +178,7 @@ class Home extends Component {
                     <button onClick={this.sort} className="blue">搜索</button>
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                     <div hidden={this.state.personhidden}>
-                        <img src={require('./pictrue/person.jpg')} alt={"截图无法显示"}/><br/>
+                        <img src={require("./pictrue/"+this.state.imgname)} alt={"截图无法显示"}/><br/>
                         <select onChange={this.setPerson}>
                             {this.state.personlist.map(function (person) {
                                 return(<option id={person}>{person}</option>)
