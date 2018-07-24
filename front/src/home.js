@@ -7,7 +7,7 @@ import axios from 'axios';
 import qs from 'qs';
 import moment from 'moment';
 import {DatePicker} from 'antd';
-
+import 'antd/dist/antd.css';
 
 class Home extends Component {
     constructor(props){
@@ -19,8 +19,9 @@ class Home extends Component {
             hourlist: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
             hour:0,
             hidden:true,
-            filelist:["C:\\Users\\asus\\scanner\\src\\pictrue\\smap.png"],
-            selhidden:true
+            personlist:["person1","person2"],
+            personhidden:true,
+            person:"person1"
         };
 
         this.camera=this.camera.bind(this);
@@ -29,7 +30,8 @@ class Home extends Component {
         this.sort=this.sort.bind(this);
         this.showTime=this.showTime.bind(this);
         this.showVideo=this.showVideo.bind(this);
-        this.selectphoto=this.selectphoto.bind(this);
+        this.setPerson=this.setPerson.bind(this);
+        this.selectPerson=this.selectPerson.bind(this);
     }
 
     camera=(e)=>{
@@ -66,6 +68,24 @@ class Home extends Component {
         })
     };
 
+    setPerson(e){
+        this.setState({
+            person:e.target.value
+        })
+    }
+
+    selectPerson=()=>{
+        axios.post("/controllerblock/selectPerson",qs.stringify({
+            person:this.state.person
+        }))
+            .then((response)=>{
+                console.log(response);
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
+    }
+
     sort=()=>{
         axios.post("/controllerblock/sortVideoByTime",qs.stringify({
             camera:this.state.camera,
@@ -75,11 +95,9 @@ class Home extends Component {
             .then((response)=>{
                 if(response.data.msg==="SUCCESS"){
                     this.setState({
-                        filelist:response.data.filelist,
-                        selhidden:false
+                        personhidden:false
                     })
                 }
-                console.log(response.data.filelist);
                 console.log(response);
                 alert(response.data.msg);
             })
@@ -113,10 +131,6 @@ class Home extends Component {
 
     };
 
-    selectphoto(e){
-        alert(e.target.src);
-    }
-
     render() {
         return (
             <div className="Home">
@@ -128,12 +142,13 @@ class Home extends Component {
                 </header>
                 <div className="videobox" >
                     <h1>选定摄像头:<strong>{this.state.camera}</strong></h1>
-                    <button id={"now"} onClick={this.showVideo}>实时视频</button><label>&nbsp;&nbsp;</label><button onClick={this.showTime} id={"his"}>历史视频</button>
+                    <button id={"now"} onClick={this.showVideo} className="blue">实时视频</button><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <button onClick={this.showTime} id={"his"} className="blue">历史视频</button>
 
                 </div>
                 <div hidden={this.state.hidden}>
                     <DatePicker defaultValue={this.state.time} className={"datapicker"} onChange={this.setDate}/>
-                    <label className={"hour"}>小时：</label>
+                    <label className={"hour"}>&nbsp;&nbsp;小时：</label>
                     <select className={"hour"} onChange={this.setHour} >
                     {
                         this.state.hourlist.map(function (item) {
@@ -141,14 +156,17 @@ class Home extends Component {
                         })
                     }
                     </select>
-                    <button onClick={this.sort}>搜索</button>
+                    <label>&nbsp;&nbsp;&nbsp;</label>
+                    <button onClick={this.sort} className="blue">搜索</button>
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                    <div hidden={this.state.selhidden}>
-                        {
-                            this.state.filelist.map(function (item) {
-                                return(<img src={item}/>);
-                            })
-                        }
+                    <div hidden={this.state.personhidden}>
+                        <img src={require('./pictrue/person.jpg')} alt={"截图无法显示"}/><br/>
+                        <select onChange={this.setPerson}>
+                            {this.state.personlist.map(function (person) {
+                                return(<option id={person}>{person}</option>)
+                            })}
+                        </select><label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <button className="blue" onClick={this.selectPerson}>选定目标</button>
                     </div>
                 </div>
                 <h1>建筑平面图</h1>

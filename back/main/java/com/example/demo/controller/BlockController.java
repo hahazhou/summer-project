@@ -121,4 +121,18 @@ public class BlockController {
             return new JSONObject().put("msg","摄像头参数错误").toString();
        }
     }
+
+    @RequestMapping("/selectPerson")
+    @ResponseBody
+    public Object selectPerson(HttpServletRequest request,HttpServletResponse response){
+        String person = request.getParameter("person");
+
+        /*
+        选定person后的操作
+        */
+
+        JSONObject data = new JSONObject();
+        data.put("msg","success");
+        return data.toString();
+    }
 }

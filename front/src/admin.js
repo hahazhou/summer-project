@@ -9,9 +9,8 @@ class Admin extends Component {
         super(props);
         this.state={
             img:null,
-            user:"喵喵喵",
+            user:"粥西奥",
             text:"",
-            info:"",
             cwidth:600,
             cheight:400
         };
@@ -29,14 +28,13 @@ class Admin extends Component {
             return;
         }
        this.setState({
-           img:window.URL.createObjectURL(e.target.files[0]),
-           info:filePath
+           img:window.URL.createObjectURL(e.target.files[0])
        });
 
         let c=this.canvas;
         let cxt=c.getContext("2d");
         let img=new Image();
-        img.src=this.state.info;
+        img.src=this.state.img;
         cxt.drawImage(img,0,0);
 
     }
@@ -70,7 +68,6 @@ class Admin extends Component {
                     </form>
 
                     <p>{this.state.text}</p>
-                    <p>{this.state.info}</p>
 
                     <br/>
                     <img src={this.state.img} alt={"图片无法显示"}/>
