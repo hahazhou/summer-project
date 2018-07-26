@@ -1,117 +1,34 @@
-.App {
-  text-align: center;
-}
+.App {text-align: center;}
+.App-logo {width:70px;height:70px;}
+.App-header {background-color: #222;height: 150px;padding: 20px;color: white;}
+.App-title {font-size: 4em;color: white;font-family: 幼圆;float: left}
+.App-intro {font-size: large;}
+@keyframes App-logo-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-.App-logo {
-  width:70px;
-  height:70px;
 
-}
+label{font-size: 1.5em;margin-left: 50px}
+select{height: 2.2em;margin-right: 50px}
 
-.App-header {
-  background-color: #222;
-  height: 200px;
-  padding: 20px;
-  color: white;
-}
 
-.App-title {
-  font-size: 2em;
-    color: white;
-}
 
-.App-intro {
-  font-size: large;
 
-}
-
-.video{
-  height: 400px;
-  width: 730px;
-}
-
-label{
-    font-size: 1.5em;
-
-}
-
-select{
-    height: 2.2em;
-}
-
-.ssmap{
-  text-align: center;
-}
-
-.znz{
-  width: 10%;
-  height: 10%;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.sLink{
-  color: aliceblue;
-  font-size: large;
-}
+.homeLink{color: aliceblue;font-size: large;float: right;margin-left: 50px;font-family: 幼圆}
+.user{color: aliceblue;font-size: large;float: right;margin-left: 10px;font-family: 幼圆}
+.userpic{width: 25px;height:25px;float: right}
+.ssmap{text-align: center;}
+.control{text-align: center}
+.time{text-align: center}
 
 .center{text-align: center}
-.vvideo{
-  text-align: center;
-}
+.mycanvas{border:1px solid;}
+.znz{width: 10%;height: 10%;}
 
-.mycanvas{
-    border:1px solid;
 
-}
 
-.datapicker{
-  float: left;
-}
-
-.hour{
-  float: left;
-}
-
-button {
-    color: #444444;
-    background: #F3F3F3;
-    border: 1px #DADADA solid;
-    padding: 5px 10px;
-    border-radius: 2px;
-    font-weight: bold;
-    font-size: 9pt;
-    outline: none;
-}
-
-button:hover {
-    border: 1px #C6C6C6 solid;
-    box-shadow: 1px 1px 1px #EAEAEA;
-    color: #333333;
-    background: #F7F7F7;
-}
-
-button:active {
-    box-shadow: inset 1px 1px 1px #DFDFDF;
-}
-
+button {color: #444444;background: #F3F3F3;border: 1px #DADADA solid;padding: 5px 10px;border-radius: 2px;font-weight: bold;font-size: 9pt;outline: none;margin-left: 50px}
+button:hover {border: 1px #C6C6C6 solid;box-shadow: 1px 1px 1px #EAEAEA;color: #333333;background: #F7F7F7;}
+button:active {box-shadow: inset 1px 1px 1px #DFDFDF;}
 /* Blue button as seen on translate.google.com*/
-button.blue {
-    color: white;
-    background: #4C8FFB;
-    border: 1px #3079ED solid;
-    box-shadow: inset 0 1px 0 #80B0FB;
-}
-
-button.blue:hover {
-    border: 1px #2F5BB7 solid;
-    box-shadow: 0 1px 1px #EAEAEA, inset 0 1px 0 #5A94F1;
-    background: #3F83F1;
-}
-
-button.blue:active {
-    box-shadow: inset 0 2px 5px #2370FE;
-}
+button.blue {color: white;background: #4C8FFB;border: 1px #3079ED solid;box-shadow: inset 0 1px 0 #80B0FB;margin-right: 50px;margin-left: 50px}
+button.blue:hover {border: 1px #2F5BB7 solid;box-shadow: 0 1px 1px #EAEAEA, inset 0 1px 0 #5A94F1;background: #3F83F1;}
+button.blue:active {box-shadow: inset 0 2px 5px #2370FE;}
